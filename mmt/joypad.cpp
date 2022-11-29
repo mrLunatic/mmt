@@ -39,28 +39,6 @@ void JoypadClass::begin()
   pinDown   = 13;
   pinUp     = 14;
   pinLeft   = 15;
-  
-  mcp.begin();
-  mcp.pinMode(0, INPUT);
-  mcp.pullUp(0, HIGH);
-  mcp.setupInterrupts(true,false,LOW);
-
-  mcp.pinMode(pinUp, INPUT);
-  mcp.pullUp(pinUp, HIGH);
-  mcp.pinMode(pinDown, INPUT);
-  mcp.pullUp(pinDown, HIGH);
-  mcp.pinMode(pinLeft, INPUT);
-  mcp.pullUp(pinLeft, HIGH);
-  mcp.pinMode(pinRight, INPUT);
-  mcp.pullUp(pinRight, HIGH);
-  mcp.pinMode(pinSelect, INPUT);
-  mcp.pullUp(pinSelect, HIGH);
-  mcp.pinMode(pinStart, INPUT);
-  mcp.pullUp(pinStart, HIGH);
-  mcp.pinMode(pinA, INPUT);
-  mcp.pullUp(pinA, HIGH);
-  mcp.pinMode(pinB, INPUT);
-  mcp.pullUp(pinB, HIGH);
 
   bufferPosition = readPosition = 0;
   callback();
@@ -74,23 +52,6 @@ void JoypadClass::begin()
 
 void JoypadClass::callback()
 {
-  uint8_t c = (uint8_t) ((mcp.readGPIOAB()>>8)) & 0xFF;
-  if(wait_clear && c == 0xFF) {
-    wait_clear = false;
-  } else if (!wait_clear) {
-    bufferPosition += 1;
-    if (bufferPosition > 7) bufferPosition = 0;
-    buffer[bufferPosition] = 0xFF - c;
-  }
-
-  mcp.setupInterruptPin(pinA,CHANGE);
-  mcp.setupInterruptPin(pinB,CHANGE);
-  mcp.setupInterruptPin(pinStart,CHANGE);
-  mcp.setupInterruptPin(pinSelect,CHANGE);
-  mcp.setupInterruptPin(pinUp,CHANGE);
-  mcp.setupInterruptPin(pinDown,CHANGE);
-  mcp.setupInterruptPin(pinLeft,CHANGE);
-  mcp.setupInterruptPin(pinRight,CHANGE);
 }
 
 void JoypadClass::setRepeat(unsigned long delayTime, unsigned long repeatTime)

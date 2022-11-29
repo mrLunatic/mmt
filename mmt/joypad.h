@@ -19,7 +19,6 @@
 #ifndef joypad_h
 #define joypad_h
 #include <Wire.h>
-#include "Adafruit_MCP23017.h"
 #include "Arduino.h"
 
 #define J_A 0x01
@@ -61,9 +60,6 @@ class JoypadClass {
     void callback();
     void waitClear();
   private:
-
-    Adafruit_MCP23017 mcp;
-    
     uint8_t buffer[8];
     uint8_t bufferPosition;
     uint8_t readPosition;
